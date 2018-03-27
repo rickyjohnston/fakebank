@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class CustomerController extends Controller
 {
     /**
-     * Store a Customer resource in the database.
+     * Store a Customer in the database.
      *
      * @return Illuminate\Http\Response
      */
