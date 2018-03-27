@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class AddCustomerTest extends TestCase
 {
@@ -20,7 +20,9 @@ class AddCustomerTest extends TestCase
      */
     public function validParams()
     {
-        return ['name' => 'James Franco'];
+        return [
+            'name' => 'James Franco'
+        ];
     }
 
     /** @test */
