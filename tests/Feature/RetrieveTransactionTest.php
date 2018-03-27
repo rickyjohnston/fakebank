@@ -17,7 +17,10 @@ class RetrieveTransactionTest extends TestCase
     public function an_authenticated_user_can_retrieve_a_transaction_with_valid_parameters()
     {
         $customer = factory(Customer::class)->create();
-        $transaction = factory(Transaction::class)->create(['customer_id' => $customer->id]);
+        $transaction = factory(Transaction::class)->create([
+            'customer_id' => $customer->id,
+            'amount'      => 2700
+        ]);
         Passport::actingAs(factory(User::class)->create());
 
         $response = $this->getJson(route('transaction.show', [
@@ -28,7 +31,7 @@ class RetrieveTransactionTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'transactionId' => $transaction->id,
-            'amount'        => $transaction->amount,
+            'amount'        => 27.00,
             'date'          => $transaction->date->toDateString(),
         ]);
     }
