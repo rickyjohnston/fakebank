@@ -1,8 +1,7 @@
 # isoftbet
 
 ## Introduction
-Create a API that handles request / responses for a made up BANK. This API should be able to handle the
-following calls and reply in json format:
+Create a API that handles request / responses for a made up BANK. This API should be able to handle the following calls and reply in json format:
 - adding of a customer:
     - **Request**: name, cnp
     - **Response**: customerId
@@ -23,8 +22,9 @@ following calls and reply in json format:
     - **Response**: success/fail
 
 **Request example for getting a transaction**: APP_URL/transaction/{customerId}/{transactionId}
+
 **Response example for getting a transaction**:
-```
+```json
 {
     "transactionId" : 100,
     "amount" : 205.67,
@@ -35,17 +35,25 @@ following calls and reply in json format:
 ## API
 
 1. **Framework Setup**
+
     a. Start and setup and app with Laravel / Lumen framework
+
 2. **Database handling**
+
     a. You are free to create a database structure that will fulfill the API requirements.
+
     b. Requirement: Use PDO prepare statement or ORM system.
+
 3. **Security**
+
     a. Create a login system for GUI.
+
     b. Create an auth system for API.
 
 ## GUI
 
 1. **View**
+
     a. Create a page where we can see transactions. Page should be accessible only for logged in users. API should be used to get the list of transactions.
 
 ## CRON
