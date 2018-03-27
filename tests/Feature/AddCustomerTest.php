@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
+use App\Customer;
 
 class AddCustomerTest extends TestCase
 {
@@ -41,7 +42,7 @@ class AddCustomerTest extends TestCase
         $response = $this->postJson(route('customer.create'), $this->validParams());
 
         $response->assertStatus(200);
-        $this->assertCount(1, User::where('name', 'James Franco')->get());
+        $this->assertCount(1, Customer::where('name', 'James Franco')->get());
     }
 
     /** @test */
@@ -51,7 +52,7 @@ class AddCustomerTest extends TestCase
 
         $response = $this->postJson(route('customer.create'), $this->validParams());
 
-        $response->assertJson(['customerId' => User::all()->last()->id]);
+        $response->assertJson(['customerId' => Customer::all()->first()->id]);
     }
 
     /** @test */

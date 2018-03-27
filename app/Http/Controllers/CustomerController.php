@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -18,10 +18,10 @@ class CustomerController extends Controller
             'name' => 'required|string'
         ]);
 
-        $user = User::create([
+        $customer = Customer::create([
             'name' => $request->name
         ]);
 
-        return ['customerId' => $user->id];
+        return ['customerId' => $customer->id];
     }
 }
