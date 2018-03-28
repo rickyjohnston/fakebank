@@ -4,10 +4,10 @@
 Create a API that handles request / responses for a made up BANK. This API should be able to handle the following calls and reply in json format:
 - adding of a customer:
     - **Request**: name, cnp
-    - **Response**: customerId
+    - ✅ **Response**: customerId
 - getting a transaction:
-    - **Request**: customerId, transactionId
-    - **Response**: transactionId, amount, date
+    - ✅ **Request**: customerId, transactionId
+    - ✅ **Response**: transactionId, amount, date
 - getting transaction by filters:
     - **Request**: customerId, amount, date, offset, limit
     - **Response**: an array of transactions
@@ -18,8 +18,8 @@ Create a API that handles request / responses for a made up BANK. This API shoul
     - **Request**: transactionId, amount
     - **Response**: transactionId, customerId, amount, date
 - deleting a transaction:
-    - **Request**: trasactionId
-    - **Response**: success/fail
+    - ✅ **Request**: trasactionId
+    - ✅ **Response**: success/fail
 
 **Request example for getting a transaction**: APP_URL/transaction/{customerId}/{transactionId}
 
