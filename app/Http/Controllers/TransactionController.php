@@ -24,6 +24,12 @@ class TransactionController extends Controller
         return new TransactionResource($transaction);
     }
 
+    /**
+     * Store a Translation in the database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -39,7 +45,7 @@ class TransactionController extends Controller
             'date'        => Carbon::now()->toDateString(),
         ]);
 
-        return response()->json(new TransactionResource($transaction), 200);
+        return new TransactionResource($transaction);
     }
 
     /**
