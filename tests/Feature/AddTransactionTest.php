@@ -26,7 +26,7 @@ class AddTransactionTest extends TestCase
             'amount'     => 5000
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertCount(1, Transaction::get());
     }
 

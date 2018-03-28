@@ -49,6 +49,24 @@ class TransactionController extends Controller
     }
 
     /**
+     * Update a Translation in the database.
+     *
+     * @param  \App\Transaction          $transaction
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Transaction $transaction)
+    {
+        $amount = $request->validate([
+            'amount' => 'required|integer'
+        ]);
+
+        $transaction->update($amount);
+
+        return new TransactionResource($transaction);
+    }
+
+    /**
      * Remove the specified Transaction from storage.
      *
      * @param  \App\Transaction  $transaction
