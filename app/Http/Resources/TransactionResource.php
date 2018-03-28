@@ -16,6 +16,9 @@ class TransactionResource extends JsonResource
     {
         return [
             'transactionId' => $this->id,
+            'customerId'    => $this->when($request->has('customerId'), function () {
+                return $this->customer_id;
+            }),
             'amount'        => $this->amount,
             'date'          => $this->date,
         ];

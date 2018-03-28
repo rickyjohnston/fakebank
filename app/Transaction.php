@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
+    protected $fillable = ['customer_id', 'amount', 'date'];
+
     /**
      * A transaction is associated with a Customer
      */

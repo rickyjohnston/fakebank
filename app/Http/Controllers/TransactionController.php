@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Customer;
 use App\Transaction;
 use App\Http\Resources\TransactionResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class TransactionController extends Controller
 {
@@ -20,6 +22,24 @@ class TransactionController extends Controller
         abort_if($transaction->customer->id != $customer->id, 404);
 
         return new TransactionResource($transaction);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'customerId' => 'required|integer',
+            'amount'     => 'required|integer',
+        ]);
+
+        abort_if(!Customer::find($request->customerId), 400);
+
+        $transaction = Transaction::create([
+            'customer_id' => $request->customerId,
+            'amount'      => $request->amount,
+            'date'        => Carbon::now()->toDateString(),
+        ]);
+
+        return response()->json(new TransactionResource($transaction), 200);
     }
 
     /**
