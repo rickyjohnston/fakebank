@@ -11,6 +11,31 @@ use Illuminate\Support\Carbon;
 class TransactionController extends Controller
 {
     /**
+     * Show a listing of Transactions
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $query = new Transaction;
+
+        if (request()->has('customerId')) {
+            $query = $query->where('customer_id', request('customerId'));
+        }
+
+        if (request()->has('amount')) {
+            $query = $query->where('amount', request('amount'));
+        }
+
+        if (request()->has('date')) {
+            $query = $query->where('date', request('date'));
+        }
+
+        // offset, limit
+        return $query->paginate(5);
+    }
+
+    /**
      * Display the specified Transaction.
      *
      * @param  \App\Customer     $customer
