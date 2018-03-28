@@ -19,7 +19,7 @@ class TransactionController extends Controller
     {
         abort_if($transaction->customer->id != $customer->id, 404);
 
-        return new TransactionResource(Transaction::find(1));
+        return new TransactionResource($transaction);
     }
 
     /**
