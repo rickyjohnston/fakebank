@@ -7,7 +7,7 @@ use App\Transaction;
 use App\Http\Resources\TransactionResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use App\Query\TransactionQuery;
+use Facades\App\Query\TransactionQuery;
 
 class TransactionController extends Controller
 {
@@ -19,7 +19,7 @@ class TransactionController extends Controller
     public function index()
     {
         // offset
-        return (new TransactionQuery)->apply(request());
+        return TransactionQuery::apply(request());
     }
 
     /**
