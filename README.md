@@ -9,8 +9,8 @@ Create a API that handles request / responses for a made up BANK. This API shoul
     - ✅ **Request**: customerId, transactionId
     - ✅ **Response**: transactionId, amount, date
 - getting transaction by filters:
-    - **Request**: customerId, amount, date, offset, limit
-    - **Response**: an array of transactions
+    - ✅ **Request**: customerId, amount, date, offset, limit
+    - ✅ **Response**: an array of transactions
 - adding a transaction:
     - ✅ **Request**: customerId, amount
     - ✅ **Response**: transactionId, customerId, amount, date

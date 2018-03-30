@@ -8,6 +8,8 @@ class Transaction extends Model
 {
     protected $fillable = ['customer_id', 'amount', 'date'];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     /**
      * A transaction is associated with a Customer
      */

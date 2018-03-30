@@ -18,7 +18,6 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        // offset
         return TransactionQuery::apply(request());
     }
 

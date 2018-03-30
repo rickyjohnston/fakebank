@@ -2,7 +2,7 @@
 
 namespace App\Query;
 
-use App\Transaction;
+use Facades\App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -16,7 +16,7 @@ class TransactionQuery
      */
     public function apply(Request $filters)
     {
-        $query = (new Transaction)->newQuery();
+        $query = Transaction::newQuery();
 
         $query = $this->applyDecoratorsFromRequest($filters, $query);
 

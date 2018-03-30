@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use App\Transaction;
-use Laravel\Passport\Passport;
-use App\User;
 use App\Customer;
+use App\User;
+use App\Transaction;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class ViewTransactionTest extends TestCase
 {
@@ -34,6 +34,35 @@ class ViewTransactionTest extends TestCase
         $response = $this->getJson(route('transaction.index'));
 
         $response->assertStatus(401);
+    }
+
+    /** @test */
+    public function transactions_can_be_paginated_with_offset_and_limit()
+    {
+        $this->withoutExceptionHandling();
+
+        $transactionA = factory(Transaction::class)->create();
+        factory(Transaction::class, 5)->create();
+        $transactionB = factory(Transaction::class)->create();
+        factory(Transaction::class, 6)->create();
+
+        Passport::actingAs(factory(User::class)->create());
+        $response = $this->getJson(route('transaction.index', [
+            'limit' => 4,
+            'offset' => 4,
+        ]));
+
+        $response->assertStatus(200);
+        $this->assertCount(4, json_decode($response->getContent())->data);
+        $response->assertJsonMissingExact([
+            'customer_id' => $transactionA->customer_id,
+        ]);
+        $response->assertJsonFragment([
+            'id' => $transactionB->id,
+            'customer_id' => $transactionB->customer_id,
+            'amount' => $transactionB->amount,
+            'date' => $transactionB->date->toDateString(),
+        ]);
     }
 
     /** @test */
