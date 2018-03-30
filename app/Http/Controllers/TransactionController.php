@@ -7,6 +7,7 @@ use App\Transaction;
 use App\Http\Resources\TransactionResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Query\TransactionQuery;
 
 class TransactionController extends Controller
 {
@@ -17,22 +18,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $query = new Transaction;
-
-        if (request()->has('customerId')) {
-            $query = $query->where('customer_id', request('customerId'));
-        }
-
-        if (request()->has('amount')) {
-            $query = $query->where('amount', request('amount'));
-        }
-
-        if (request()->has('date')) {
-            $query = $query->where('date', request('date'));
-        }
-
-        // offset, limit
-        return $query->paginate(5);
+        // offset
+        return (new TransactionQuery)->apply(request());
     }
 
     /**
