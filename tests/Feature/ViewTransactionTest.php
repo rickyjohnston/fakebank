@@ -61,7 +61,7 @@ class ViewTransactionTest extends TestCase
         factory(Transaction::class, 2)->create(['amount' => 4500]);
 
         Passport::actingAs(factory(User::class)->create());
-        $response = $this->getJson(route('transaction.index', ['amount' => 4500]));
+        $response = $this->getJson(route('transaction.index', ['amount' => 45.00]));
 
         $response->assertStatus(200);
         $this->assertCount(3, json_decode($response->getContent())->data);
@@ -79,5 +79,51 @@ class ViewTransactionTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertCount(3, json_decode($response->getContent())->data);
+    }
+
+    /** @test */
+    public function transactions_can_be_filtered_by_date_and_amount()
+    {
+        $recordA = factory(Transaction::class)->create([
+            'date'   => Carbon::now()->toDateString(),
+            'amount' => 3200,
+        ]);
+        factory(Transaction::class, 6)->create(['date' => Carbon::now()->subMonth()->toDateString()]);
+        factory(Transaction::class, 2)->create([
+            'date'   => Carbon::now()->toDateString(),
+            'amount' => 2700,
+        ]);
+
+        Passport::actingAs(factory(User::class)->create());
+        $response = $this->getJson(route('transaction.index', ['date' => Carbon::now()->toDateString(), 'amount' => 27.00]));
+
+        $response->assertStatus(200);
+        $this->assertCount(2, json_decode($response->getContent())->data);
+    }
+
+    /** @test */
+    public function transactions_can_be_filtered_by_date_amount_and_customer()
+    {
+        $customer = factory(Customer::class)->create();
+        $recordA = factory(Transaction::class)->create([
+            'date'        => Carbon::now()->toDateString(),
+            'amount'      => 2700,
+            'customer_id' => $customer->id,
+        ]);
+        factory(Transaction::class, 6)->create(['date' => Carbon::now()->subMonth()->toDateString()]);
+        factory(Transaction::class, 2)->create([
+            'date'   => Carbon::now()->toDateString(),
+            'amount' => 2700,
+        ]);
+
+        Passport::actingAs(factory(User::class)->create());
+        $response = $this->getJson(route('transaction.index', [
+            'date'       => Carbon::now()->toDateString(),
+            'amount'     => 27.00,
+            'customerId' => $customer->id,
+        ]));
+
+        $response->assertStatus(200);
+        $this->assertCount(1, json_decode($response->getContent())->data);
     }
 }

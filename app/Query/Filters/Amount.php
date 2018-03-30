@@ -15,6 +15,6 @@ class Amount implements Filter
      */
     public static function apply(Builder $builder, $value)
     {
-        return $builder->where('amount', $value);
+        return $builder->where('amount', $value * 100);
     }
 }
