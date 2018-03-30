@@ -18,7 +18,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return TransactionQuery::apply(request());
+        return TransactionResource::collection(
+            TransactionQuery::apply(request())
+        );
     }
 
     /**

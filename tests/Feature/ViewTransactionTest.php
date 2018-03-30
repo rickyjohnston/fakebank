@@ -55,11 +55,11 @@ class ViewTransactionTest extends TestCase
         $response->assertStatus(200);
         $this->assertCount(4, json_decode($response->getContent())->data);
         $response->assertJsonMissingExact([
-            'customer_id' => $transactionA->customer_id,
+            'customerId' => $transactionA->customer_id,
         ]);
         $response->assertJsonFragment([
-            'id' => $transactionB->id,
-            'customer_id' => $transactionB->customer_id,
+            'transactionId' => $transactionB->id,
+            'customerId' => $transactionB->customer_id,
             'amount' => $transactionB->amount,
             'date' => $transactionB->date->toDateString(),
         ]);
