@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\HasAmount;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
+    use HasAmount;
+
     protected $fillable = ['customer_id', 'amount', 'date'];
 
     /**
@@ -14,16 +17,5 @@ class Transaction extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
-    }
-
-    /**
-     * Mutate the Amount attribute for display
-     *
-     * @param  Integer $value
-     * @return Float
-     */
-    public function getAmountAttribute($value)
-    {
-        return number_format($value / 100, 2);
     }
 }
