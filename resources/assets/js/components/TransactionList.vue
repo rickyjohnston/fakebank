@@ -6,12 +6,12 @@
                     <div class="card-header">Transaction List</div>
 
                     <div class="card-body" v-if="transactions.length > 0">
-                        <table style="width: 100%">
-                            <thead>
+                        <table class="table" style="width: 100%">
+                            <thead class="thead-light">
                                 <tr>
-                                    <th>Customer ID</th>
-                                    <th>Amount</th>
-                                    <th>Date</th>
+                                    <th scope="col">Customer ID</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Date</th>
                                 </tr>
                             </thead>
                             <tbody>
