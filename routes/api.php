@@ -1,5 +1,11 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware('auth:api')->post('/customer/create', 'CustomerController@store')->name('customer.create');
 
 Route::middleware('auth:api')->group(function () {
