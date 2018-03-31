@@ -38,4 +38,14 @@ class SumTransactionsTest extends TestCase
 
         $this->assertSame($total, DailyTransactionTotal::first()->amount);
     }
+
+    /** @test */
+    public function it_can_run_on_days_without_transactions()
+    {
+        $this->assertEmpty(DailyTransactionTotal::get());
+
+        $this->artisan('transaction:sum');
+
+        $this->assertEquals(0, DailyTransactionTotal::first()->amount);
+    }
 }
