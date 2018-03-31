@@ -59,4 +59,4 @@ Create a API that handles request / responses for a made up BANK. This API shoul
 ## CRON
 
 1. ✅ Create a script that stores the sum of all transactions from previous day.
-2. Attach a file where you add the command you use to set up the cron job to run every 2 days at 23:47.
+2. ✅ Attach a file where you add the command you use to set up the cron job to run every 2 days at 23:47.
