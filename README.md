@@ -46,7 +46,7 @@ Create a API that handles request / responses for a made up BANK. This API shoul
 
 3. **Security**
 
-    a. Create a login system for GUI.
+    a. ✅ Create a login system for GUI.
 
     b. Create an auth system for API.
 
@@ -54,7 +54,7 @@ Create a API that handles request / responses for a made up BANK. This API shoul
 
 1. **View**
 
-    a. Create a page where we can see transactions. Page should be accessible only for logged in users. API should be used to get the list of transactions.
+    a. ✅ Create a page where we can see transactions. Page should be accessible only for logged in users. API should be used to get the list of transactions.
 
 ## CRON
 

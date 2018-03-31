@@ -18,6 +18,7 @@
                 </div>
             </div>
         </div>
+        <transaction-list></transaction-list>
     </div>
 </div>
 @endsection
