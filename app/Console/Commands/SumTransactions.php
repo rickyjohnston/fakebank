@@ -44,6 +44,8 @@ class SumTransactions extends Command
         DailyTransactionTotal::create([
             'amount' => ($total * 100)
         ]);
+
+        $this->info("Sum transaction command completed for {$date}");
     }
 
     /**
