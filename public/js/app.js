@@ -47330,6 +47330,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -47339,6 +47347,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker___default.a,
         Paginator: __WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination___default.a
     },
+
     data: function data() {
         return {
             amount: '',
@@ -47354,6 +47363,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.getResults();
         this.getCustomerData();
     },
+
 
     computed: {
         day: function day() {
@@ -47373,6 +47383,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return Object.assign({}, amount, date, customerId, { limit: 8, page: this.page });
         }
     },
+
     methods: {
         getResults: function getResults(page) {
             var _this = this;
@@ -47397,6 +47408,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (err) {
                 return console.error(err);
             });
+        },
+        clearAndResubmit: function clearAndResubmit() {
+            this.amount = '';
+            this.date = '';
+            this.customerId = '';
+            this.getResults();
         }
     }
 });
@@ -47494,15 +47511,20 @@ var render = function() {
                 }
               }
             },
-            _vm._l(_vm.customers, function(customer) {
-              return _c("option", { key: customer }, [
-                _vm._v(
-                  "\n                        " +
-                    _vm._s(customer) +
-                    "\n                    "
-                )
-              ])
-            })
+            [
+              _c("option", { attrs: { value: "" } }, [_vm._v("Select an ID")]),
+              _vm._v(" "),
+              _vm._l(_vm.customers, function(customer) {
+                return _c("option", { key: customer }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(customer) +
+                      "\n                    "
+                  )
+                ])
+              })
+            ],
+            2
           )
         ]),
         _vm._v(" "),
@@ -47569,6 +47591,21 @@ var render = function() {
               on: { click: _vm.getResults }
             },
             [_vm._v("\n                    Submit\n                ")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-block btn-danger",
+              on: { click: _vm.clearAndResubmit }
+            },
+            [
+              _vm._v(
+                "\n                    Clear and Resubmit\n                "
+              )
+            ]
           )
         ])
       ])

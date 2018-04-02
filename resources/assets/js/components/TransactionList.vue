@@ -31,6 +31,7 @@
                         Customer ID
                     </label>
                     <select class="form-control" name="customerId" id="customerId" v-model="customerId">
+                        <option value="">Select an ID</option>
                         <option v-for="customer in customers" :key="customer">
                             {{ customer }}
                         </option>
@@ -57,6 +58,13 @@
                         Submit
                     </button>
                 </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-block btn-danger"
+                        @click="clearAndResubmit">
+                        Clear and Resubmit
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -71,6 +79,7 @@
             Datepicker,
             Paginator
         },
+
         data() {
             return {
                 amount: '',
@@ -82,20 +91,25 @@
                 transactions: []
             }
         },
+        
         beforeMount() {
             this.getResults();
             this.getCustomerData();
         },
+        
         computed: {
             day() {
                 return this.date.getDate();
             },
+            
             month() {
                 return this.date.getMonth() + 1;
             },
+            
             year() {
                 return this.date.getFullYear();
             },
+            
             filters() {
                 let amount = (this.amount) ? { amount: this.amount } : {};
                 let date = (this.date) ? { date: `${this.year}-${this.month}-${this.day}` } : {};
@@ -104,6 +118,7 @@
                 return Object.assign({}, amount, date, customerId, { limit: 8, page: this.page });
             }
         },
+        
         methods: {
             getResults(page) {
                 this.page = (typeof page === 'undefined') ? 1 : page;
@@ -118,10 +133,18 @@
                     })
                     .catch(err => console.error(err));
             },
+            
             getCustomerData() {
                 axios.post('/api/customers')
                     .then(res => this.customers = res.data)
                     .catch(err => console.error(err));
+            },
+
+            clearAndResubmit() {
+                this.amount = '';
+                this.date = '';
+                this.customerId = '';
+                this.getResults();
             }
         }
     }
