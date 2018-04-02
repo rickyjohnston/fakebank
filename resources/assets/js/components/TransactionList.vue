@@ -52,7 +52,7 @@
                     <datepicker input-class="form-control" format="yyyy-MM-dd" v-model="date" name="date" id="date"></datepicker>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group pt-3">
                     <button class="btn btn-block btn-primary"
                         @click="getResults">
                         Submit
@@ -60,7 +60,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <button class="btn btn-block btn-danger"
+                    <button class="btn btn-block btn-outline-danger"
                         @click="clearAndResubmit">
                         Clear and Resubmit
                     </button>
@@ -129,7 +129,6 @@
                     .then(res => {
                         this.transactions = res.data.data;
                         this.paginatorData = Object.assign({},res.data.links, res.data.meta);
-                        // this.searchUrl = res.data.links.next;
                     })
                     .catch(err => console.error(err));
             },
