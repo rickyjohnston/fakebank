@@ -11,6 +11,11 @@ class Transaction extends Model
 
     protected $fillable = ['customer_id', 'amount', 'date'];
 
+    protected $casts = [
+        'customer_id' => 'integer',
+        'date'        => 'date:Y-m-d'
+    ];
+
     /**
      * A transaction is associated with a Customer
      */

@@ -27,11 +27,9 @@ class SumTransactionsTest extends TestCase
     /** @test */
     public function it_stores_the_total_in_the_database()
     {
-        factory(Transaction::class, 9)->create(['date' => Carbon::now(), 'amount' => 2700]);
-        factory(Transaction::class)->create(['date' => Carbon::now(), 'amount' => 2575]);
-
+        factory(Transaction::class, 9)->create(['date' => Carbon::now()->toDateString(), 'amount' => 2700]);
+        factory(Transaction::class)->create(['date' => Carbon::now()->toDateString(), 'amount' => 2575]);
         $total = Transaction::get()->pluck('amount')->sum();
-
         $this->assertEmpty(DailyTransactionTotal::get());
 
         $this->artisan('transaction:sum');
