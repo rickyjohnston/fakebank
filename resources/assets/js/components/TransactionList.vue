@@ -22,6 +22,7 @@
                 <paginator class="justify-content-center" :data="paginatorData" v-on:pagination-change-page="getResults"></paginator>
             </div>
             <div class="col-9" v-else>
+                <h2>Transaction List</h2>
                 No transactions found. 😃
             </div>
             <div class="col">

@@ -25,7 +25,7 @@
 
             Potentially the world's most secure bank. How do we do it? We don't exchange any currency whatsoever.
         @endcomponent
-        @component('card', ['title' => '100% Fake!'])
+        @component('card', ['title' => 'Fake'])
             @slot('icon')
                 @icon('thumbs-up', 'icon-md mx-auto mt-4 fill-dark')
             @endslot

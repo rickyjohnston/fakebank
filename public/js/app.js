@@ -13777,6 +13777,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -14015,6 +14016,7 @@ var render = function() {
             1
           )
         : _c("div", { staticClass: "col-9" }, [
+            _c("h2", [_vm._v("Transaction List")]),
             _vm._v("\n            No transactions found. 😃\n        ")
           ]),
       _vm._v(" "),
