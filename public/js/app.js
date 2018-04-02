@@ -47292,21 +47292,99 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            amount: '',
+            customerId: '',
+            customers: [],
+            date: '',
+            searchUrl: '/api/transaction',
             transactions: []
         };
     },
     beforeMount: function beforeMount() {
-        var _this = this;
+        this.loadInitialData();
+        this.getCustomerData();
+    },
 
-        axios.get('/api/transaction').then(function (res) {
-            return _this.transactions = res.data.data;
-        }).catch(function (err) {
-            return console.error(err);
-        });
+    computed: {
+        filters: function filters() {
+            var amount = this.amount ? { amount: this.amount } : {};
+            var date = this.date ? { date: this.date } : {};
+            var customerId = this.customerId ? { customerId: this.customerId } : {};
+
+            return Object.assign({}, amount, date, customerId, { limit: 10 });
+        }
+    },
+    methods: {
+        loadInitialData: function loadInitialData() {
+            var _this = this;
+
+            axios.get(this.searchUrl, {
+                params: {
+                    limit: 10
+                }
+            }).then(function (res) {
+                _this.transactions = res.data.data;
+                // this.searchUrl = res.data.links.next;
+            }).catch(function (err) {
+                return console.error(err);
+            });
+        },
+        getCustomerData: function getCustomerData() {
+            var _this2 = this;
+
+            axios.post('/api/customers').then(function (res) {
+                return _this2.customers = res.data;
+            }).catch(function (err) {
+                return console.error(err);
+            });
+        },
+        getFilteredSearch: function getFilteredSearch() {
+            var _this3 = this;
+
+            axios.get(this.searchUrl, {
+                params: this.filters
+            }).then(function (res) {
+                return _this3.transactions = res.data.data;
+            }).catch(function (err) {
+                return console.error(err);
+            });
+        }
     }
 });
 
@@ -47320,49 +47398,162 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "card card-default" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Transaction List")
+      _c("div", { staticClass: "col" }, [
+        _c("h2", [_vm._v("Transaction List")]),
+        _vm._v(" "),
+        _c("div", {}, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "customerId" } }, [
+              _vm._v(
+                "\n                        Customer ID\n                    "
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.customerId,
+                    expression: "customerId"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { name: "customerId", id: "customerId" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.customerId = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.customers, function(customer) {
+                return _c("option", { key: customer }, [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(customer) +
+                      "\n                        "
+                  )
+                ])
+              })
+            )
           ]),
           _vm._v(" "),
-          _vm.transactions.length > 0
-            ? _c("div", { staticClass: "card-body" }, [
-                _c(
-                  "table",
-                  { staticClass: "table", staticStyle: { width: "100%" } },
-                  [
-                    _vm._m(0),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.transactions, function(transaction) {
-                        return _c("tr", [
-                          _c("td", {
-                            domProps: {
-                              textContent: _vm._s(transaction.customerId)
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("td", {
-                            domProps: {
-                              textContent: _vm._s(transaction.amount)
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("td", {
-                            domProps: { textContent: _vm._s(transaction.date) }
-                          })
-                        ])
-                      })
-                    )
-                  ]
-                )
-              ])
-            : _c("div", { staticClass: "card-body" }, [
-                _vm._v("\n                    No data.\n                ")
-              ])
-        ])
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "amount" } }, [
+              _vm._v("\n                        Amount\n                    ")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.amount,
+                  expression: "amount"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { id: "amount", name: "amount", type: "text" },
+              domProps: { value: _vm.amount },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.amount = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "date" } }, [
+              _vm._v("\n                        Date\n                    ")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.date,
+                  expression: "date"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "date", name: "date" },
+              domProps: { value: _vm.date },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.date = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-block btn-primary",
+                on: { click: _vm.getFilteredSearch }
+              },
+              [_vm._v("\n                        Submit\n                    ")]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _vm.transactions.length > 0
+          ? _c("div", { staticClass: "card-body" }, [
+              _c(
+                "table",
+                { staticClass: "table", staticStyle: { width: "100%" } },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.transactions, function(transaction) {
+                      return _c("tr", { key: transaction.transactionId }, [
+                        _c("td", {
+                          domProps: {
+                            textContent: _vm._s(transaction.customerId)
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          domProps: { textContent: _vm._s(transaction.amount) }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          domProps: { textContent: _vm._s(transaction.date) }
+                        })
+                      ])
+                    })
+                  )
+                ]
+              )
+            ])
+          : _c("div", { staticClass: "card-body" }, [
+              _vm._v(
+                "\n                No transactions found. 😃\n            "
+              )
+            ])
       ])
     ])
   ])

@@ -27,7 +27,7 @@ class SumTransactionsTest extends TestCase
     /** @test */
     public function it_stores_the_total_in_the_database()
     {
-        factory(Transaction::class, 9)->create();
+        factory(Transaction::class, 9)->create(['amount' => 2700]);
         factory(Transaction::class)->create(['amount' => 2575]);
 
         $total = Transaction::get()->pluck('amount')->sum();

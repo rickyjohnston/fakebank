@@ -8,7 +8,39 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+.navbar-brand {
+  font-size: 24px;
+}
+
+.font-heading {
+  font-family: 'Varela Round', 'Roboto', sans-serif;
+}
+
 .navbar-laravel {
-  background-color: #fff;
+  // background-color: #fff;
+  background: linear-gradient(-135deg,#8649D6 0,#2791D2 100%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.icon-sm {
+  width: 1.5em;
+}
+
+.icon-md {
+  width: 5em;
+}
+
+.fill-dark {
+  fill: #343a40 !important;
+}
+
+.fill-white {
+  fill: white;
+}
+
+.fixed-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }

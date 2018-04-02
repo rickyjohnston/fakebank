@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 class CustomerController extends Controller
 {
     /**
+     * Return a listing of Customers.
+     */
+    public function index()
+    {
+        return Customer::get(['id'])->pluck('id');
+    }
+
+    /**
      * Store a Customer in the database.
      *
      * @return Illuminate\Http\Response
