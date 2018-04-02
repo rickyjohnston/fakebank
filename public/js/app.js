@@ -47446,6 +47446,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("paginator", {
+                staticClass: "justify-content-center",
                 attrs: { data: _vm.paginatorData },
                 on: { "pagination-change-page": _vm.getResults }
               })

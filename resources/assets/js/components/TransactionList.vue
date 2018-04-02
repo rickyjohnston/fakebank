@@ -19,7 +19,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <paginator :data="paginatorData" v-on:pagination-change-page="getResults"></paginator>
+                <paginator class="justify-content-center" :data="paginatorData" v-on:pagination-change-page="getResults"></paginator>
             </div>
             <div class="col-9" v-else>
                 No transactions found. 😃
