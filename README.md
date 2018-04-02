@@ -23,3 +23,6 @@ Code challenge: create an API for a made up BANK. For full requirements, see req
 ## Tests
 There are a number of automated tests included. To run them, from the project directory,
 run `vendor/bin/phpunit`
+
+## API Routes
+A full list of routes can be seen by running `php artisan route:list` from the project root.
