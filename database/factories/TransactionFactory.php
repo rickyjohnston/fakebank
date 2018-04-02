@@ -10,6 +10,6 @@ $factory->define(App\Transaction::class, function (Faker $faker) {
         'customer_id' => function () {
             return factory(Customer::class)->create()->id;
         },
-        'date'   => Carbon::now()
+        'date'   => Carbon::parse($faker->date),
     ];
 });
