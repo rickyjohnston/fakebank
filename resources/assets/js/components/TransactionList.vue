@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-9" v-if="transactions.length > 0">
                 <h2>Transaction List</h2>
-                <table class="table table-light" style="width: 100%">
+                <table class="table table-light">
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">Customer ID</th>
@@ -14,7 +14,7 @@
                     <tbody>
                         <tr v-for="transaction in transactions" :key="transaction.transactionId">
                             <td v-text="transaction.customerId"></td>
-                            <td v-text="transaction.amount"></td>
+                            <td v-text="transaction.amount.toFixed(2)"></td>
                             <td v-text="transaction.date"></td>
                         </tr>
                     </tbody>

@@ -47418,37 +47418,32 @@ var render = function() {
             [
               _c("h2", [_vm._v("Transaction List")]),
               _vm._v(" "),
-              _c(
-                "table",
-                {
-                  staticClass: "table table-light",
-                  staticStyle: { width: "100%" }
-                },
-                [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(_vm.transactions, function(transaction) {
-                      return _c("tr", { key: transaction.transactionId }, [
-                        _c("td", {
-                          domProps: {
-                            textContent: _vm._s(transaction.customerId)
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("td", {
-                          domProps: { textContent: _vm._s(transaction.amount) }
-                        }),
-                        _vm._v(" "),
-                        _c("td", {
-                          domProps: { textContent: _vm._s(transaction.date) }
-                        })
-                      ])
-                    })
-                  )
-                ]
-              ),
+              _c("table", { staticClass: "table table-light" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.transactions, function(transaction) {
+                    return _c("tr", { key: transaction.transactionId }, [
+                      _c("td", {
+                        domProps: {
+                          textContent: _vm._s(transaction.customerId)
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: {
+                          textContent: _vm._s(transaction.amount.toFixed(2))
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(transaction.date) }
+                      })
+                    ])
+                  })
+                )
+              ]),
               _vm._v(" "),
               _c("paginator", {
                 attrs: { data: _vm.paginatorData },
