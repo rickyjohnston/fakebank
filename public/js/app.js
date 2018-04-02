@@ -47264,6 +47264,8 @@ module.exports = function normalizeComponent (
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination__);
 //
 //
 //
@@ -47327,11 +47329,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker___default.a
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker___default.a,
+        Paginator: __WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination___default.a
     },
     data: function data() {
         return {
@@ -47339,12 +47345,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             customerId: '',
             customers: [],
             date: '',
-            searchUrl: '/api/transaction',
+            page: 1,
+            paginatorData: {},
             transactions: []
         };
     },
     beforeMount: function beforeMount() {
-        this.loadInitialData();
+        this.getResults();
         this.getCustomerData();
     },
 
@@ -47363,19 +47370,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var date = this.date ? { date: this.year + '-' + this.month + '-' + this.day } : {};
             var customerId = this.customerId ? { customerId: this.customerId } : {};
 
-            return Object.assign({}, amount, date, customerId, { limit: 10 });
+            return Object.assign({}, amount, date, customerId, { limit: 8, page: this.page });
         }
     },
     methods: {
-        loadInitialData: function loadInitialData() {
+        getResults: function getResults(page) {
             var _this = this;
 
-            axios.get(this.searchUrl, {
-                params: {
-                    limit: 10
-                }
+            this.page = typeof page === 'undefined' ? 1 : page;
+
+            axios.get('/api/transaction', {
+                params: this.filters
             }).then(function (res) {
                 _this.transactions = res.data.data;
+                _this.paginatorData = Object.assign({}, res.data.links, res.data.meta);
                 // this.searchUrl = res.data.links.next;
             }).catch(function (err) {
                 return console.error(err);
@@ -47386,17 +47394,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.post('/api/customers').then(function (res) {
                 return _this2.customers = res.data;
-            }).catch(function (err) {
-                return console.error(err);
-            });
-        },
-        getFilteredSearch: function getFilteredSearch() {
-            var _this3 = this;
-
-            axios.get(this.searchUrl, {
-                params: this.filters
-            }).then(function (res) {
-                return _this3.transactions = res.data.data;
             }).catch(function (err) {
                 return console.error(err);
             });
@@ -47415,38 +47412,51 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
       _vm.transactions.length > 0
-        ? _c("div", { staticClass: "col-9" }, [
-            _c("h2", [_vm._v("Transaction List")]),
-            _vm._v(" "),
-            _c(
-              "table",
-              { staticClass: "table", staticStyle: { width: "100%" } },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.transactions, function(transaction) {
-                    return _c("tr", { key: transaction.transactionId }, [
-                      _c("td", {
-                        domProps: {
-                          textContent: _vm._s(transaction.customerId)
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(transaction.amount) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(transaction.date) }
-                      })
-                    ])
-                  })
-                )
-              ]
-            )
-          ])
+        ? _c(
+            "div",
+            { staticClass: "col-9" },
+            [
+              _c("h2", [_vm._v("Transaction List")]),
+              _vm._v(" "),
+              _c(
+                "table",
+                {
+                  staticClass: "table table-light",
+                  staticStyle: { width: "100%" }
+                },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.transactions, function(transaction) {
+                      return _c("tr", { key: transaction.transactionId }, [
+                        _c("td", {
+                          domProps: {
+                            textContent: _vm._s(transaction.customerId)
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          domProps: { textContent: _vm._s(transaction.amount) }
+                        }),
+                        _vm._v(" "),
+                        _c("td", {
+                          domProps: { textContent: _vm._s(transaction.date) }
+                        })
+                      ])
+                    })
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("paginator", {
+                attrs: { data: _vm.paginatorData },
+                on: { "pagination-change-page": _vm.getResults }
+              })
+            ],
+            1
+          )
         : _c("div", { staticClass: "col-9" }, [
             _vm._v("\n            No transactions found. 😃\n        ")
           ]),
@@ -47560,7 +47570,7 @@ var render = function() {
             "button",
             {
               staticClass: "btn btn-block btn-primary",
-              on: { click: _vm.getFilteredSearch }
+              on: { click: _vm.getResults }
             },
             [_vm._v("\n                    Submit\n                ")]
           )
@@ -47990,6 +48000,106 @@ module.exports = function listToStyles (parentId, list) {
   }
   return styles
 }
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports) {
+
+module.exports = {
+	props: {
+		data: {
+			type: Object,
+			default: function() {
+				return {
+					current_page: 1,
+					data: [],
+					from: 1,
+					last_page: 1,
+					next_page_url: null,
+					per_page: 10,
+					prev_page_url: null,
+					to: 1,
+					total: 0,
+				}
+			}
+		},
+		limit: {
+			type: Number,
+			default: 0
+		}
+	},
+
+	template: '<ul class="pagination" v-if="data.total > data.per_page">\
+		<li class="page-item pagination-prev-nav" v-if="data.prev_page_url">\
+			<a class="page-link" href="#" aria-label="Previous" @click.prevent="selectPage(--data.current_page)">\
+				<slot name="prev-nav">\
+					<span aria-hidden="true">&laquo;</span>\
+					<span class="sr-only">Previous</span>\
+				</slot>\
+			</a>\
+		</li>\
+		<li class="page-item pagination-page-nav" v-for="n in getPages()" :class="{ \'active\': n == data.current_page }">\
+			<a class="page-link" href="#" @click.prevent="selectPage(n)">{{ n }}</a>\
+		</li>\
+		<li class="page-item pagination-next-nav" v-if="data.next_page_url">\
+			<a class="page-link" href="#" aria-label="Next" @click.prevent="selectPage(++data.current_page)">\
+				<slot name="next-nav">\
+					<span aria-hidden="true">&raquo;</span>\
+					<span class="sr-only">Next</span>\
+				</slot>\
+			</a>\
+		</li>\
+	</ul>',
+
+	methods: {
+		selectPage: function(page) {
+			if (page === '...') {
+				return;
+			}
+
+			this.$emit('pagination-change-page', page);
+		},
+		getPages: function() {
+			if (this.limit === -1) {
+				return 0;
+			}
+
+			if (this.limit === 0) {
+				return this.data.last_page;
+			}
+
+			var current = this.data.current_page,
+				last = this.data.last_page,
+				delta = this.limit,
+				left = current - delta,
+				right = current + delta + 1,
+				range = [],
+				pages = [],
+				l;
+
+			for (var i = 1; i <= last; i++) {
+				if (i == 1 || i == last || (i >= left && i < right)) {
+					range.push(i);
+				}
+			}
+
+			range.forEach(function (i) {
+				if (l) {
+					if (i - l === 2) {
+						pages.push(l + 1);
+					} else if (i - l !== 1) {
+						pages.push('...');
+					}
+				}
+				pages.push(i);
+				l = i;
+			});
+
+			return pages;
+		}
+	}
+};
 
 
 /***/ })

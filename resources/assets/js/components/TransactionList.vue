@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-9" v-if="transactions.length > 0">
                 <h2>Transaction List</h2>
-                <table class="table" style="width: 100%">
+                <table class="table table-light" style="width: 100%">
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">Customer ID</th>
@@ -19,6 +19,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <paginator :data="paginatorData" v-on:pagination-change-page="getResults"></paginator>
             </div>
             <div class="col-9" v-else>
                 No transactions found. 😃
@@ -52,7 +53,7 @@
 
                 <div class="form-group">
                     <button class="btn btn-block btn-primary"
-                        @click="getFilteredSearch">
+                        @click="getResults">
                         Submit
                     </button>
                 </div>
@@ -63,9 +64,12 @@
 
 <script>
     import Datepicker from 'vuejs-datepicker';
+    import Paginator from 'laravel-vue-pagination';
+
     export default {
         components: {
-            Datepicker
+            Datepicker,
+            Paginator
         },
         data() {
             return {
@@ -73,12 +77,13 @@
                 customerId: '',
                 customers: [],
                 date: '',
-                searchUrl: '/api/transaction',
+                page: 1,
+                paginatorData: {},
                 transactions: []
             }
         },
         beforeMount() {
-            this.loadInitialData();
+            this.getResults();
             this.getCustomerData();
         },
         computed: {
@@ -96,18 +101,19 @@
                 let date = (this.date) ? { date: `${this.year}-${this.month}-${this.day}` } : {};
                 let customerId = (this.customerId) ? { customerId: this.customerId } : {};
 
-                return Object.assign({}, amount, date, customerId, { limit: 10 });
+                return Object.assign({}, amount, date, customerId, { limit: 8, page: this.page });
             }
         },
         methods: {
-            loadInitialData() {
-                axios.get(this.searchUrl, {
-                    params: {
-                        limit: 10
-                    }
+            getResults(page) {
+                this.page = (typeof page === 'undefined') ? 1 : page;
+
+                axios.get('/api/transaction', {
+                    params: this.filters
                 })
                     .then(res => {
                         this.transactions = res.data.data;
+                        this.paginatorData = Object.assign({},res.data.links, res.data.meta);
                         // this.searchUrl = res.data.links.next;
                     })
                     .catch(err => console.error(err));
@@ -115,13 +121,6 @@
             getCustomerData() {
                 axios.post('/api/customers')
                     .then(res => this.customers = res.data)
-                    .catch(err => console.error(err));
-            },
-            getFilteredSearch() {
-                axios.get(this.searchUrl, {
-                    params: this.filters
-                })
-                    .then(res => this.transactions = res.data.data)
                     .catch(err => console.error(err));
             }
         }
