@@ -2,13 +2,28 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-9" v-if="transactions.length > 0">
-                <h2>Transaction List</h2>
+                <h2>Transaction List ({{ paginatorData.total }})</h2>
                 <table class="table table-light">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">Customer ID</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Date</th>
+                            <th scope="col" @click="sortBy('')">
+                                <div class="d-flex align-items-center">
+                                    Customer ID
+                                    <chevron-down v-if="sort === ''" class="pl-1 icon-sm"></chevron-down>
+                                </div>
+                            </th>
+                            <th scope="col" @click="sortBy('amount')">
+                                <div class="d-flex align-items-center">
+                                    Amount
+                                    <chevron-down v-if="sort === 'amount'" class="pl-1 icon-sm"></chevron-down>
+                                </div>
+                            </th>
+                            <th scope="col" @click="sortBy('date')">
+                                <div class="d-flex align-items-center">
+                                    Date
+                                    <chevron-down v-if="sort === 'date'" class="pl-1 icon-sm"></chevron-down>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,11 +87,13 @@
 </template>
 
 <script>
+    import ChevronDown from './ChevronDown.vue';
     import Datepicker from 'vuejs-datepicker';
     import Paginator from 'laravel-vue-pagination';
 
     export default {
         components: {
+            ChevronDown,
             Datepicker,
             Paginator
         },
@@ -89,6 +106,7 @@
                 date: '',
                 page: 1,
                 paginatorData: {},
+                sort: '',
                 transactions: []
             }
         },
@@ -115,8 +133,9 @@
                 let amount = (this.amount) ? { amount: this.amount } : {};
                 let date = (this.date) ? { date: `${this.year}-${this.month}-${this.day}` } : {};
                 let customerId = (this.customerId) ? { customerId: this.customerId } : {};
+                let sort = (this.sort) ? { sort: this.sort } : {};
 
-                return Object.assign({}, amount, date, customerId, { limit: 8, page: this.page });
+                return Object.assign({}, amount, date, customerId, sort, { limit: 8, page: this.page });
             }
         },
         
@@ -144,6 +163,12 @@
                 this.amount = '';
                 this.date = '';
                 this.customerId = '';
+                this.sort = '';
+                this.getResults();
+            },
+
+            sortBy(value) {
+                this.sort = value;
                 this.getResults();
             }
         }
@@ -153,5 +178,9 @@
 <style>
     .form-control[name=date] {
         background-color: white;
+    }
+    th:hover {
+        cursor: pointer;
+        text-decoration: underline;
     }
 </style>

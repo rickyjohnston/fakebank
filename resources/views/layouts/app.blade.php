@@ -53,12 +53,16 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('home')}}">
-                                        {{ __('Transactions') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('tokens') }}">
-                                        {{ __('API Tokens') }}
-                                    </a>
+                                    @if(!Route::is('home'))
+                                        <a class="dropdown-item" href="{{ route('home')}}">
+                                            {{ __('Transactions') }}
+                                        </a>
+                                    @endif
+                                    @if(!Route::is('tokens'))
+                                        <a class="dropdown-item" href="{{ route('tokens') }}">
+                                            {{ __('API Tokens') }}
+                                        </a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

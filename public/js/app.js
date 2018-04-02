@@ -13657,7 +13657,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.form-control[name=date] {\n    background-color: white;\n}\n", ""]);
+exports.push([module.i, "\n.form-control[name=date] {\n    background-color: white;\n}\nth:hover {\n    cursor: pointer;\n    text-decoration: underline;\n}\n", ""]);
 
 // exports
 
@@ -13701,10 +13701,12 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ChevronDown_vue__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ChevronDown_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ChevronDown_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuejs_datepicker__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuejs_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuejs_datepicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_laravel_vue_pagination__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_laravel_vue_pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_laravel_vue_pagination__);
 //
 //
 //
@@ -13778,14 +13780,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker___default.a,
-        Paginator: __WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination___default.a
+        ChevronDown: __WEBPACK_IMPORTED_MODULE_0__ChevronDown_vue___default.a,
+        Datepicker: __WEBPACK_IMPORTED_MODULE_1_vuejs_datepicker___default.a,
+        Paginator: __WEBPACK_IMPORTED_MODULE_2_laravel_vue_pagination___default.a
     },
 
     data: function data() {
@@ -13796,6 +13815,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             date: '',
             page: 1,
             paginatorData: {},
+            sort: '',
             transactions: []
         };
     },
@@ -13819,8 +13839,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var amount = this.amount ? { amount: this.amount } : {};
             var date = this.date ? { date: this.year + '-' + this.month + '-' + this.day } : {};
             var customerId = this.customerId ? { customerId: this.customerId } : {};
+            var sort = this.sort ? { sort: this.sort } : {};
 
-            return Object.assign({}, amount, date, customerId, { limit: 8, page: this.page });
+            return Object.assign({}, amount, date, customerId, sort, { limit: 8, page: this.page });
         }
     },
 
@@ -13852,6 +13873,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.amount = '';
             this.date = '';
             this.customerId = '';
+            this.sort = '';
+            this.getResults();
+        },
+        sortBy: function sortBy(value) {
+            this.sort = value;
             this.getResults();
         }
     }
@@ -13978,10 +14004,103 @@ var render = function() {
             "div",
             { staticClass: "col-9" },
             [
-              _c("h2", [_vm._v("Transaction List")]),
+              _c("h2", [
+                _vm._v(
+                  "Transaction List (" + _vm._s(_vm.paginatorData.total) + ")"
+                )
+              ]),
               _vm._v(" "),
               _c("table", { staticClass: "table table-light" }, [
-                _vm._m(0),
+                _c("thead", { staticClass: "thead-light" }, [
+                  _c("tr", [
+                    _c(
+                      "th",
+                      {
+                        attrs: { scope: "col" },
+                        on: {
+                          click: function($event) {
+                            _vm.sortBy("")
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "d-flex align-items-center" },
+                          [
+                            _vm._v(
+                              "\n                                Customer ID\n                                "
+                            ),
+                            _vm.sort === ""
+                              ? _c("chevron-down", {
+                                  staticClass: "pl-1 icon-sm"
+                                })
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "th",
+                      {
+                        attrs: { scope: "col" },
+                        on: {
+                          click: function($event) {
+                            _vm.sortBy("amount")
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "d-flex align-items-center" },
+                          [
+                            _vm._v(
+                              "\n                                Amount\n                                "
+                            ),
+                            _vm.sort === "amount"
+                              ? _c("chevron-down", {
+                                  staticClass: "pl-1 icon-sm"
+                                })
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "th",
+                      {
+                        attrs: { scope: "col" },
+                        on: {
+                          click: function($event) {
+                            _vm.sortBy("date")
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "d-flex align-items-center" },
+                          [
+                            _vm._v(
+                              "\n                                Date\n                                "
+                            ),
+                            _vm.sort === "date"
+                              ? _c("chevron-down", {
+                                  staticClass: "pl-1 icon-sm"
+                                })
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      ]
+                    )
+                  ])
+                ]),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -14158,22 +14277,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "thead-light" }, [
-      _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Customer ID")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Amount")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Date")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -33109,6 +33213,84 @@ Object.defineProperty(exports, '__esModule', { value: true });
 })));
 //# sourceMappingURL=bootstrap.js.map
 
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = null
+/* template */
+var __vue_template__ = __webpack_require__(68)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ChevronDown.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-07e602d4", Component.options)
+  } else {
+    hotAPI.reload("data-v-07e602d4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "svg",
+    { attrs: { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 20 20" } },
+    [
+      _c("path", {
+        attrs: {
+          d:
+            "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+        }
+      })
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-07e602d4", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
