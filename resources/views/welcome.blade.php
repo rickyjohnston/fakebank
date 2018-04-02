@@ -33,10 +33,17 @@
             There's nothing real on this website whatsoever. In fact, many would argue, we're not even a bank.
         @endcomponent
     </div>
+
     <div class="row justify-content-center">
-        <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
-            {{ __('Login') }}
-        </a>
+        @guest
+            <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
+                {{ __('Login') }}
+            </a>
+        @else
+            <a href="{{ route('home') }}" class="btn btn-outline-primary btn-lg">
+                {{ __('See Transaction List') }}
+            </a>
+        @endguest
     </div>
 </div>
 @endsection
