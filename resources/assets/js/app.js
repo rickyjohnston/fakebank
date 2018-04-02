@@ -1,22 +1,35 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 
 window.Vue = require('vue');
 
 /**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
+ * Here, I've thrown in the Transaction List compoennt, which is the entry point
+ * to the authenticated application.
  */
-
 Vue.component('transaction-list', require('./components/TransactionList.vue'));
 
+/**
+ * Now, I'm going to place the pre-compiled Laravel Passport components. This
+ * allows you to scaffold out API token registration in a flash.
+ */
+Vue.component(
+    'passport-clients',
+    require('./components/passport/Clients.vue')
+);
+
+Vue.component(
+    'passport-authorized-clients',
+    require('./components/passport/AuthorizedClients.vue')
+);
+
+Vue.component(
+    'passport-personal-access-tokens',
+    require('./components/passport/PersonalAccessTokens.vue')
+);
+
+/**
+ * And, finally, let's bind the Vue instance to the page.
+ */
 const app = new Vue({
     el: '#app'
 });
