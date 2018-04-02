@@ -1,4 +1,4 @@
-# isoftbet
+# Code Challenge
 
 ## Introduction
 Create a API that handles request / responses for a made up BANK. This API should be able to handle the following calls and reply in json format:

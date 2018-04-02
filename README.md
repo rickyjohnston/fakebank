@@ -1,4 +1,4 @@
-# FakeBank Code Test
+# FakeBank
 
 ## Introduction
 Code challenge: create an API for a made up BANK. For full requirements, see requirements.md.
