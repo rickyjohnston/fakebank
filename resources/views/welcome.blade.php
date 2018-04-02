@@ -34,7 +34,7 @@
         @endcomponent
     </div>
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mb-5">
         @guest
             <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
                 {{ __('Login') }}
